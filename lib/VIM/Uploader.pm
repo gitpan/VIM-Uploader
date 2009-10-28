@@ -10,11 +10,11 @@ VIM::Uploader - upload your vim script to vim.org
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -88,13 +88,19 @@ sub login {
         chomp $ans;
         $ans ||= 'Y';
         if( $ans =~ /y/ ) {
-            print "User:";
-            chomp($config->{user} = <STDIN>);
+            print "User: ";
+            my $user = <STDIN>;
+            chomp $user;
             
-            print "Password:";
-            chomp($config->{pass} = <STDIN>);
+            print "Password: ";
+            my $pass = <STDIN>;
 
-            print "Created.";
+            open FH , ">" , config_file();
+            print FH "$user:$pass\n";
+            close FH;
+
+            print "Created.\n";
+            $config = $self->read_config();
         }
     }
 
