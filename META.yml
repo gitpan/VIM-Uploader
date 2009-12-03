@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               VIM-Uploader
-version:            0.02
+version:            0.03
 abstract:           upload your vim script to vim.org
 author:
     - Cornelius <cornelius.howl@gmail.com>

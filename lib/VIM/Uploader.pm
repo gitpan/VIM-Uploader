@@ -10,11 +10,11 @@ VIM::Uploader - upload your vim script to vim.org
 
 =head1 VERSION
 
-Version 0.02
+0.03
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 
@@ -67,7 +67,9 @@ sub read_config {
     return unless -e $path;
 
     open FH , "<" , $path;
-    my ($user,$pass) = split /:/,<FH>;
+    my $line = <FH>;
+    chomp $line;
+    my ($user,$pass) = split /:/,$line;
     close FH;
 
     return {
@@ -87,7 +89,7 @@ sub login {
         my $ans = <STDIN>;
         chomp $ans;
         $ans ||= 'Y';
-        if( $ans =~ /y/ ) {
+        if( $ans =~ /y/i ) {
             print "User: ";
             my $user = <STDIN>;
             chomp $user;
@@ -149,7 +151,7 @@ sub upload {
     $self->mech->get( 'http://www.vim.org/scripts/script.php?script_id=' . $script_id );
 
     my $html = $self->mech->content;
-    return $html =~ /$args{version_comment}/s;
+    return index($html, $args{version_comment});
 }
 
 =head1 AUTHOR
