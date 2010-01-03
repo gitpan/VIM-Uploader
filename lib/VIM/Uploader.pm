@@ -8,13 +8,9 @@ use strict;
 
 VIM::Uploader - upload your vim script to vim.org
 
-=head1 VERSION
-
-0.04
-
 =cut
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =head1 SYNOPSIS
 
@@ -60,19 +56,16 @@ sub mech {
     return $self->{mech};
 }
 
-
-sub config_file  { File::Spec->join($ENV{HOME},".vim-uploader") }
+use constant config_file  => File::Spec->join($ENV{HOME},".vim-uploader");
 
 sub read_config {
-    my $path = config_file();
+    my $path = config_file;
     return unless -e $path;
-
     open FH , "<" , $path;
     my $line = <FH>;
-    chomp $line;
-    my ($user,$pass) = split /:/,$line;
     close FH;
-
+    $line =~ s/\n$//;
+    my ($user,$pass) = split /:/,$line;
     return {
         user => $user,
         pass => $pass,
@@ -86,19 +79,21 @@ sub login {
     $config ||= $self->read_config();
 
     unless( $config ) {
-        print "Seems you dont have " . config_file() . ". create one ? (Y/n) : ";
+        print "Seems you dont have " . config_file . ". create one ? (Y/n) : ";
         my $ans = <STDIN>;
         chomp $ans;
         $ans ||= 'Y';
         if( $ans =~ /y/i ) {
             print "User: ";
             my $user = <STDIN>;
-            chomp $user;
             
             print "Password: ";
             my $pass = <STDIN>;
 
-            open FH , ">" , config_file();
+            chomp $user;
+            chomp $pass;
+
+            open FH , ">" , config_file;
             print FH "$user:$pass\n";
             close FH;
 

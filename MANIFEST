@@ -4,4 +4,5 @@ Makefile.PL
 README.mkd
 lib/VIM/Uploader.pm
 t/00-load.t
+bin/vim-upload-new
 META.yml                                 Module meta-data (added by MakeMaker)
