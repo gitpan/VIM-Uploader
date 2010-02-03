@@ -10,7 +10,7 @@ VIM::Uploader - upload your vim script to vim.org
 
 =cut
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 =head1 SYNOPSIS
 
@@ -38,6 +38,21 @@ or
     );
 
     print "DONE" if $ok;
+
+=head1 DESCRIPTIONS
+
+L<VIM::Uploader> provides F<vim-upload> script for you to upload vim scripts. 
+it creates a upload form template for you.
+
+    # in /path/to/script.vim/ directory
+    $ vim-upload script.vim
+
+    $ vim-upload script-2.04.tar.gz
+
+then the file L<script.vim.upload> will be created after the first upload. just edit the file and the next time 
+you can upload script easily.
+
+    $ vim-upload script.vim
 
 =head1 FUNCTIONS
 
